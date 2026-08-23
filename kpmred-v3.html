@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KPMRed — Garantizar seguridad para tu futuro.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #05060A;
+    --navy: #0E1E3A;
+    --navy-light: #16294D;
+    --red: #E01030;
+    --red-bright: #FF3355;
+    --white: #F5F7FA;
+    --steel: #93A0B8;
+    --line: rgba(255,255,255,0.10);
+    --glass: rgba(14,25,48,0.42);
+    --glass-light: rgba(255,255,255,0.045);
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+
+    --color-1: #E01030;
+    --color-2: #FF7A8A;
+    --color-3: #93A5C9;
+    --color-4: #FFFFFF;
+
+    --linear-ease: linear(
+      0,
+      0.068,
+      0.19 2.7%,
+      0.804 8.1%,
+      1.037,
+      1.199 13.2%,
+      1.245,
+      1.27 15.8%,
+      1.274,
+      1.272 17.4%,
+      1.249 19.1%,
+      0.996 28%,
+      0.949,
+      0.928 33.3%,
+      0.926,
+      0.933 36.8%,
+      1.001 45.6%,
+      1.013,
+      1.019 50.8%,
+      1.018 54.4%,
+      1 63.1%,
+      0.995 68%,
+      1.001 85%,
+      1
+    );
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,svg{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  :focus-visible{ outline:2px solid var(--red-bright); outline-offset:3px; }
+
+  .wrap{ max-width:1200px; margin:0 auto; padding:0 32px; position:relative; z-index:2; }
+
+  .eyebrow{
+    font-family: var(--mono); font-size:12px; letter-spacing:0.18em; text-transform:uppercase;
+    display:flex; align-items:center; gap:10px; margin-bottom:20px; color:#FF95A2;
+  }
+  .eyebrow::before{ content:""; width:26px; height:2px; background:var(--red-bright); display:inline-block; }
+
+  h1,h2,h3{ font-family:var(--display); font-weight:700; letter-spacing:-0.01em; }
+
+  /* ================= HEADER + GOOEY NAV ================= */
+  header{
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    padding: 18px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+    background: linear-gradient(to bottom, rgba(5,6,10,0.7), transparent);
+  }
+  .brand{ display:flex; align-items:center; gap:10px; }
+  .brand svg{ width:26px; height:26px; }
+  .brand-word{ font-family:var(--display); font-weight:700; font-size:18px; color:var(--white); }
+  .brand-word .red{ color:var(--red-bright); }
+
+  .header-cta{
+    font-family: var(--mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:11px 20px; border-radius:100vw; border:1px solid rgba(255,255,255,0.25);
+    color:var(--white); background:rgba(255,255,255,0.04); backdrop-filter:blur(10px);
+    transition: all .25s ease; font-weight:600;
+  }
+  .header-cta:hover{ background:var(--red); border-color:var(--red); }
+
+  /* --- Gooey nav (ported from provided component) --- */
+  .gooey-nav-container{ position:relative; }
+  .gooey-nav-container nav{ display:flex; position:relative; transform:translate3d(0,0,0.01px); }
+  .gooey-nav-container nav ul{
+    display:flex; gap:0.4em; list-style:none; padding:6px; margin:0;
+    position:relative; z-index:3; color:white; text-shadow:0 1px 1px hsl(205deg 30% 10% / .2);
+    background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.12);
+    border-radius:100vw; backdrop-filter: blur(14px);
+  }
+  .gooey-nav-container nav ul li{
+    border-radius:100vw; position:relative; cursor:pointer;
+    transition: background-color .3s ease, color .3s ease, box-shadow .3s ease;
+    box-shadow: 0 0 0.5px 1.5px transparent; color:white;
+  }
+  .gooey-nav-container nav ul li a{
+    display:inline-block; padding:0.55em 1.1em; font-family:var(--mono);
+    font-size:12.5px; letter-spacing:0.04em; text-transform:uppercase;
+  }
+  .gooey-nav-container nav ul li:focus-within:has(:focus-visible){ box-shadow:0 0 0.5px 1.5px white; }
+  .gooey-nav-container nav ul li::after{
+    content:''; position:absolute; inset:0; border-radius:100vw; background:white;
+    opacity:0; transform:scale(0); transition:all .3s ease; z-index:-1;
+  }
+  .gooey-nav-container nav ul li.active{ color:black; text-shadow:none; }
+  .gooey-nav-container nav ul li.active::after{ opacity:1; transform:scale(1); }
+
+  .gooey-nav-container .effect{
+    position:absolute; left:0; top:0; width:0; height:0; opacity:1; pointer-events:none;
+    display:grid; place-items:center; z-index:1;
+  }
+  .gooey-nav-container .effect.text{ color:white; transition:color .3s ease; font-family:var(--mono); font-size:12.5px; text-transform:uppercase; letter-spacing:0.04em; }
+  .gooey-nav-container .effect.text.active{ color:black; }
+  .gooey-nav-container .effect.filter{ filter: blur(7px) contrast(100) blur(0); mix-blend-mode:lighten; }
+  .gooey-nav-container .effect.filter::before{
+    content:''; position:absolute; inset:-75px; z-index:-2; background:black;
+  }
+  .gooey-nav-container .effect.filter::after{
+    content:''; position:absolute; inset:0; background:white; transform:scale(0); opacity:0;
+    z-index:-1; border-radius:100vw;
+  }
+  .gooey-nav-container .effect.active::after{ animation: pill .3s ease both; }
+  @keyframes pill{ to{ transform:scale(1); opacity:1; } }
+
+  .particle, .point{ display:block; opacity:0; width:20px; height:20px; border-radius:100%; transform-origin:center; }
+  .particle{ --time:5s; position:absolute; top:calc(50% - 8px); left:calc(50% - 8px); animation: particle calc(var(--time)) ease 1 -350ms; }
+  .point{ background:var(--color); opacity:1; animation: point calc(var(--time)) ease 1 -350ms; }
+  @keyframes particle{
+    0%{ transform: rotate(0deg) translate(calc(var(--start-x)), calc(var(--start-y))); opacity:1; animation-timing-function: cubic-bezier(.55,0,1,.45); }
+    70%{ transform: rotate(calc(var(--rotate) * .5)) translate(calc(var(--end-x) * 1.2), calc(var(--end-y) * 1.2)); opacity:1; animation-timing-function: ease; }
+    85%{ transform: rotate(calc(var(--rotate) * .66)) translate(calc(var(--end-x)), calc(var(--end-y))); opacity:1; }
+    100%{ transform: rotate(calc(var(--rotate) * 1.2)) translate(calc(var(--end-x) * .5), calc(var(--end-y) * .5)); opacity:1; }
+  }
+  @keyframes point{
+    0%{ transform:scale(0); opacity:0; animation-timing-function: cubic-bezier(.55,0,1,.45); }
+    25%{ transform:scale(calc(var(--scale) * .25)); }
+    38%{ opacity:1; }
+    65%{ transform:scale(var(--scale)); opacity:1; animation-timing-function: ease; }
+    85%{ transform:scale(var(--scale)); opacity:1; }
+    100%{ transform:scale(0); opacity:0; }
+  }
+
+  /* ================= HERO + DARKVEIL ================= */
+  .hero{
+    position:relative; min-height:100vh; display:flex; align-items:center;
+    overflow:hidden; background:var(--bg);
+  }
+  .veil-stage{ position:absolute; inset:0; z-index:0; }
+  .darkveil-canvas{ width:100%; height:100%; display:block; }
+  .veil-overlay{
+    position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      linear-gradient(to bottom, rgba(5,6,10,0.25) 0%, rgba(5,6,10,0.55) 62%, var(--bg) 100%),
+      radial-gradient(ellipse at 15% 30%, rgba(224,16,48,0.18), transparent 55%);
+  }
+  .hero-inner{ position:relative; z-index:2; max-width:700px; padding-top:60px; }
+  .hero h1{
+    font-size: clamp(38px, 5.6vw, 68px); line-height:1.05; margin-bottom:26px;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.5);
+  }
+  .hero h1 .accent{ color:var(--red-bright); }
+  .hero p.lead{ font-size:18px; color:#CBD3E3; max-width:520px; margin-bottom:40px; text-shadow:0 2px 16px rgba(0,0,0,0.5); }
+  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom:64px; }
+
+  .btn{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.06em; text-transform:uppercase;
+    padding:14px 26px; border-radius:100vw; display:inline-block; transition:all .25s ease;
+    border:1px solid transparent; font-weight:600;
+  }
+  .btn-solid{ background:var(--red); color:var(--white); }
+  .btn-solid:hover{ background:var(--red-bright); box-shadow:0 8px 26px rgba(224,16,48,0.4); transform:translateY(-2px); }
+  .btn-ghost{ border-color:rgba(255,255,255,0.3); color:var(--white); background:rgba(255,255,255,0.04); backdrop-filter:blur(8px); }
+  .btn-ghost:hover{ border-color:var(--red-bright); color:var(--red-bright); }
+
+  .stat-strip{
+    position:relative; z-index:2;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background: rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.1); border-radius:16px; overflow:hidden;
+    backdrop-filter: blur(16px);
+  }
+  .stat{ background:rgba(8,10,16,0.55); padding:22px 20px; }
+  .stat .num{ font-family:var(--mono); font-size:26px; font-weight:600; color:var(--white); display:block; }
+  .stat .num .unit{ color:var(--red-bright); }
+  .stat .label{ font-size:12px; color:#9AA5BC; margin-top:6px; }
+
+  /* ================= ABOUT ================= */
+  .about{ padding:130px 0 110px; }
+  .about-grid{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:70px; align-items:start; }
+  .about h2{ font-size:clamp(28px,3.4vw,40px); margin-bottom:24px; max-width:480px; }
+  .about p{ color:var(--steel); font-size:16px; margin-bottom:18px; max-width:540px; }
+  .about strong{ color:var(--white); font-weight:600; }
+
+  .glass-card{
+    background:var(--glass); border:1px solid var(--line); border-radius:20px;
+    backdrop-filter: blur(18px); padding:6px;
+  }
+  .seal-wrap{ display:flex; justify-content:center; align-items:center; padding:34px; }
+  .seal{ width:210px; height:210px; position:relative; }
+  .seal svg{ width:100%; height:100%; animation:spin 26s linear infinite; }
+  @keyframes spin{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+  .seal-center{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; }
+  .seal-center .big{ font-family:var(--display); font-weight:700; font-size:15px; color:var(--white); }
+  .seal-center .small{ font-family:var(--mono); font-size:9.5px; color:var(--red-bright); letter-spacing:0.1em; margin-top:4px; }
+
+  /* ================= SPEC ================= */
+  .spec{ padding:110px 0; }
+  .spec-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:54px; flex-wrap:wrap; gap:20px; }
+  .spec-head h2{ font-size:clamp(28px,3.6vw,42px); max-width:520px; }
+  .spec-head p{ color:var(--steel); max-width:300px; font-size:14.5px; }
+
+  .spec-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+  .spec-card{
+    background:var(--glass); border:1px solid var(--line); border-radius:20px;
+    backdrop-filter: blur(18px); padding:36px 32px; transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
+  }
+  .spec-card:hover{ border-color: rgba(224,16,48,0.55); box-shadow:0 0 0 1px rgba(224,16,48,0.2), 0 20px 50px rgba(224,16,48,0.12); transform: translateY(-4px); }
+  .spec-card .code{ font-family:var(--mono); font-size:12px; color:var(--red-bright); letter-spacing:0.08em; margin-bottom:18px; }
+  .spec-card h3{ font-size:19px; margin-bottom:12px; }
+  .spec-card p{ color:var(--steel); font-size:14px; }
+
+  /* ================= FRAMEWORKS TICKER ================= */
+  .frameworks{ padding:8px 0; overflow:hidden; }
+  .fw-strip{
+    margin:0 32px; border-radius:100vw; border:1px solid var(--line); background:var(--glass);
+    backdrop-filter:blur(18px); overflow:hidden;
+  }
+  .fw-track{ display:flex; width:max-content; animation: marquee 24s linear infinite; }
+  .fw-track span{ font-family:var(--mono); font-size:13.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--white); padding:20px 34px; white-space:nowrap; display:flex; align-items:center; gap:34px; }
+  .fw-track span em{ font-style:normal; color:var(--red-bright); }
+  @keyframes marquee{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  /* ================= VISION / MISSION ================= */
+  .vm{ padding:110px 0; }
+  .vm-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .vm-panel{ border-radius:24px; padding:52px 44px; border:1px solid var(--line); backdrop-filter: blur(18px); }
+  .vm-panel.vision{ background:var(--glass); }
+  .vm-panel.mission{ background: linear-gradient(155deg, rgba(224,16,48,0.28), rgba(224,16,48,0.06)); }
+  .vm-panel .tag{ font-family:var(--mono); font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:#FF95A2; margin-bottom:18px; display:block; }
+  .vm-panel h3{ font-size:clamp(20px,2.4vw,25px); margin-bottom:16px; max-width:400px; }
+  .vm-panel p{ font-size:15px; color:#B7C0D3; max-width:400px; }
+
+  /* ================= CTA ================= */
+  .cta{ padding:0 32px 110px; }
+  .cta-inner{
+    max-width:1136px; margin:0 auto; text-align:center; padding:80px 40px;
+    border-radius:28px; border:1px solid rgba(255,255,255,0.12);
+    background: radial-gradient(ellipse at 30% 20%, rgba(224,16,48,0.35), transparent 60%), var(--navy);
+    position:relative; overflow:hidden;
+  }
+  .cta h2{ font-size:clamp(28px,4.4vw,48px); margin-bottom:18px; }
+  .cta p{ color:#C7CEDE; margin-bottom:34px; font-size:15.5px; }
+
+  /* ================= FOOTER ================= */
+  footer{ padding:50px 0 30px; border-top:1px solid var(--line); }
+  .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:40px; }
+  .foot-brand p{ margin-top:16px; font-size:13.5px; max-width:240px; color:#6E7C97; }
+  .foot-col h4{ font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#4E5C78; margin-bottom:16px; }
+  .foot-col a{ display:block; font-size:13.5px; margin-bottom:10px; color:#A6AFC2; }
+  .foot-col a:hover{ color:var(--red-bright); }
+  .foot-bottom{ display:flex; justify-content:space-between; padding-top:24px; border-top:1px solid var(--line); font-family:var(--mono); font-size:11px; color:#4E5C78; flex-wrap:wrap; gap:10px; }
+
+  @media (max-width:900px){
+    header .header-cta{ display:none; }
+    .about-grid{ grid-template-columns:1fr; }
+    .spec-grid{ grid-template-columns:1fr; }
+    .stat-strip{ grid-template-columns:repeat(2,1fr); }
+    .vm-grid{ grid-template-columns:1fr; }
+    .foot-grid{ grid-template-columns:1fr 1fr; }
+    .gooey-nav-container nav ul li a{ padding:0.5em 0.75em; font-size:11px; }
+  }
+  @media (max-width:600px){
+    .wrap{ padding:0 20px; }
+    header{ padding:14px 16px; }
+    .brand-word{ display:none; }
+    .cta{ padding:0 16px 80px; }
+    .cta-inner{ padding:56px 24px; }
+    .foot-grid{ grid-template-columns:1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .seal svg{ animation:none; }
+    .fw-track{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#hero" class="brand" aria-label="KPMRed — inicio">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <polygon points="33,8 47,8 47,92 33,92" fill="#F5F7FA"/>
+      <polygon points="47,40 47,58 84,8 68,8" fill="#F5F7FA"/>
+      <polygon points="47,58 61,58 84,92 68,92" fill="#E01030"/>
+    </svg>
+    <span class="brand-word">KPM<span class="red">Red</span></span>
+  </a>
+
+  <div class="gooey-nav-container" id="gooeyNav">
+    <nav>
+      <ul id="gooeyList">
+        <li data-index="0"><a href="#hero">Inicio</a></li>
+        <li data-index="1"><a href="#about">Nosotros</a></li>
+        <li data-index="2"><a href="#spec">Especialidades</a></li>
+        <li data-index="3"><a href="kpmred-presentaciones.html">Presentaciones</a></li>
+        <li data-index="4"><a href="#contact">Contacto</a></li>
+      </ul>
+    </nav>
+    <span class="effect filter"></span>
+    <span class="effect text"></span>
+  </div>
+
+  <a href="#contact" class="header-cta">Solicitar auditoría</a>
+</header>
+
+<section class="hero" id="hero">
+  <div class="veil-stage">
+    <canvas class="darkveil-canvas" id="darkveil"></canvas>
+  </div>
+  <div class="veil-overlay"></div>
+
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Auditoría Informática · Gobierno de TI · Ciberseguridad</div>
+    <h1>Garantizar seguridad <span class="accent">para tu futuro.</span></h1>
+    <p class="lead">Auditamos, evaluamos y robustecemos la infraestructura tecnológica de las corporaciones más grandes del mundo. Convertimos la incertidumbre en ventaja competitiva.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn btn-solid">Solicitar una auditoría</a>
+      <a href="#about" class="btn btn-ghost">Conocer la red</a>
+    </div>
+
+    <div class="stat-strip">
+      <div class="stat"><span class="num">3<span class="unit">/3</span></span><span class="label">Marcos: COBIT · ISO 27001 · ITIL</span></div>
+      <div class="stat"><span class="num">40<span class="unit">+</span></span><span class="label">Países con operaciones activas</span></div>
+      <div class="stat"><span class="num">500<span class="unit">+</span></span><span class="label">Auditorías completadas</span></div>
+      <div class="stat"><span class="num">24<span class="unit">/7</span></span><span class="label">Monitoreo de continuidad</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="eyebrow">Acerca de KPMRed</div>
+      <h2>El poder de la confianza en la era digital.</h2>
+      <p>En KPMRed entendemos que la información es <strong>el activo más crítico</strong> de la economía global. Nacidos de la necesidad de auditar arquitecturas tecnológicas cada vez más complejas, somos una red internacional líder en auditoría informática, consultoría de riesgos IT y análisis de sistemas.</p>
+      <p>Nuestro equipo multidisciplinario evalúa, audita y robustece los entornos digitales de las corporaciones más grandes del mundo. Desde la revisión de infraestructuras en la nube hasta el control de calidad en el desarrollo de software, en KPMRed no solo encontramos vulnerabilidades: <strong>diseñamos la resiliencia operativa.</strong></p>
+      <p>Operamos bajo los marcos regulatorios internacionales más estrictos, garantizando que la tecnología de nuestros clientes esté alineada con sus objetivos de negocio de forma segura y eficiente.</p>
+    </div>
+
+    <div class="glass-card">
+      <div class="seal-wrap">
+        <div class="seal">
+          <svg viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <path id="circlePath" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/>
+            </defs>
+            <circle cx="100" cy="100" r="94" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.4" stroke-dasharray="2 5"/>
+            <circle cx="100" cy="100" r="78" fill="none" stroke="#E01030" stroke-width="1.4"/>
+            <text font-family="IBM Plex Mono" font-size="10.5" letter-spacing="3" fill="#E7EBF3">
+              <textPath href="#circlePath" startOffset="0%">KPMRED · VERIFICADO · KPMRED · VERIFICADO ·</textPath>
+            </text>
+          </svg>
+          <div class="seal-center">
+            <span class="big">KPMRed</span>
+            <span class="small">EST. AUDITORÍA GLOBAL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="spec" id="spec">
+  <div class="wrap">
+    <div class="spec-head">
+      <h2>Áreas de especialización core</h2>
+      <p>Cuatro disciplinas que cubren el ciclo completo de la infraestructura tecnológica de nuestros clientes.</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="code">GOV.01 — Gobierno de TI</div>
+        <h3>Auditoría de Sistemas y Gobierno de TI</h3>
+        <p>Evaluación de controles generales, cumplimiento normativo y alineación estratégica de las TI con el negocio.</p>
+      </div>
+      <div class="spec-card">
+        <div class="code">ARC.02 — Arquitectura</div>
+        <h3>Análisis y Arquitectura de Sistemas</h3>
+        <p>Diagnóstico del ciclo de vida del software, revisión de código y optimización de bases de datos.</p>
+      </div>
+      <div class="spec-card">
+        <div class="code">EMB.03 — Hardware</div>
+        <h3>Seguridad en Sistemas Embebidos y Hardware</h3>
+        <p>Auditoría especializada en dispositivos de bajo nivel, IoT y protocolos de comunicación física.</p>
+      </div>
+      <div class="spec-card">
+        <div class="code">DAT.04 — Privacidad</div>
+        <h3>Privacidad y Gestión de Datos</h3>
+        <p>Auditoría de flujos de información, resguardo en la nube y continuidad del negocio (BCP/DRP).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="frameworks" aria-label="Marcos regulatorios">
+  <div class="fw-strip">
+    <div class="fw-track">
+      <span>COBIT <em>·</em> Gobierno de TI</span>
+      <span>ISO 27001 <em>·</em> Seguridad de la información</span>
+      <span>ITIL <em>·</em> Gestión de servicios</span>
+      <span>COBIT <em>·</em> Gobierno de TI</span>
+      <span>ISO 27001 <em>·</em> Seguridad de la información</span>
+      <span>ITIL <em>·</em> Gestión de servicios</span>
+    </div>
+  </div>
+</section>
+
+<section class="vm" id="vm">
+  <div class="wrap vm-grid">
+    <div class="vm-panel vision">
+      <span class="tag">Visión</span>
+      <h3>La red global de confianza que define los estándares de integridad, seguridad y resiliencia tecnológica.</h3>
+      <p>Un futuro donde cada organización opera sobre una base tecnológica auditada, verificada y preparada para lo que viene.</p>
+    </div>
+    <div class="vm-panel mission">
+      <span class="tag">Misión</span>
+      <h3>Proteger y potenciar el valor de nuestros clientes mediante auditorías de precisión.</h3>
+      <p>Transformamos la incertidumbre en ventaja competitiva a través del análisis de sistemas profundo y el rigor analítico.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="cta-inner">
+    <h2>Garantizar seguridad para tu futuro.</h2>
+    <p>Nuestro equipo multidisciplinario está listo para evaluar la resiliencia de tu infraestructura.</p>
+    <a href="mailto:contacto@kpmred.com" class="btn btn-solid">Solicitar una auditoría</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <span class="brand-word" style="display:inline-block">KPM<span class="red">Red</span></span>
+        <p>Red internacional de auditoría informática, consultoría de riesgos IT y análisis de sistemas.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Firma</h4>
+        <a href="#about">Nosotros</a>
+        <a href="#vm">Visión y misión</a>
+        <a href="#spec">Especialidades</a>
+        <a href="kpmred-presentaciones.html">Presentaciones</a>
+      </div>
+      <div class="foot-col">
+        <h4>Cumplimiento</h4>
+        <a href="#">COBIT</a>
+        <a href="#">ISO 27001</a>
+        <a href="#">ITIL</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contacto</h4>
+        <a href="mailto:contacto@kpmred.com">contacto@kpmred.com</a>
+        <a href="#contact">Solicitar auditoría</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 KPMRed. Todos los derechos reservados.</span>
+      <span>COBIT · ISO 27001 · ITIL</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =======================================================================
+   GooeyNav — vanilla-JS port of the provided React component.
+   Same particle / gooey-filter logic, driven by plain DOM instead of refs.
+======================================================================= */
+function initGooeyNav(containerEl, opts = {}) {
+  const {
+    animationTime = 600,
+    particleCount = 9,
+    particleDistances = [90, 10],
+    particleR = 120,
+    timeVariance = 800,
+    colors = [1, 2, 3, 1, 2, 3, 1, 4],
+    initialActiveIndex = 0
+  } = opts;
+
+  const listEl = containerEl.querySelector('ul');
+  const filterEl = containerEl.querySelector('.effect.filter');
+  const textEl = containerEl.querySelector('.effect.text');
+  const items = Array.from(listEl.querySelectorAll('li'));
+  let activeIndex = initialActiveIndex;
+
+  const noise = (n = 1) => n / 2 - Math.random() * n;
+
+  const getXY = (distance, pointIndex, totalPoints) => {
+    const angle = ((360 + noise(8)) / totalPoints) * pointIndex * (Math.PI / 180);
+    return [distance * Math.cos(angle), distance * Math.sin(angle)];
+  };
+
+  const createParticle = (i, t, d, r) => {
+    const rotate = noise(r / 10);
+    return {
+      start: getXY(d[0], particleCount - i, particleCount),
+      end: getXY(d[1] + noise(7), particleCount - i, particleCount),
+      time: t,
+      scale: 1 + noise(0.2),
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rotate: rotate > 0 ? (rotate + r / 20) * 10 : (rotate - r / 20) * 10
+    };
+  };
+
+  const makeParticles = (element) => {
+    const d = particleDistances, r = particleR;
+    const bubbleTime = animationTime * 2 + timeVariance;
+    element.style.setProperty('--time', `${bubbleTime}ms`);
+
+    for (let i = 0; i < particleCount; i++) {
+      const t = animationTime * 2 + noise(timeVariance * 2);
+      const p = createParticle(i, t, d, r);
+      element.classList.remove('active');
+
+      setTimeout(() => {
+        const particle = document.createElement('span');
+        const point = document.createElement('span');
+        particle.classList.add('particle');
+        particle.style.setProperty('--start-x', `${p.start[0]}px`);
+        particle.style.setProperty('--start-y', `${p.start[1]}px`);
+        particle.style.setProperty('--end-x', `${p.end[0]}px`);
+        particle.style.setProperty('--end-y', `${p.end[1]}px`);
+        particle.style.setProperty('--time', `${p.time}ms`);
+        particle.style.setProperty('--scale', `${p.scale}`);
+        particle.style.setProperty('--color', `var(--color-${p.color}, white)`);
+        particle.style.setProperty('--rotate', `${p.rotate}deg`);
+
+        point.classList.add('point');
+        particle.appendChild(point);
+        element.appendChild(particle);
+        requestAnimationFrame(() => element.classList.add('active'));
+        setTimeout(() => {
+          try { element.removeChild(particle); } catch (e) {}
+        }, t);
+      }, 30);
+    }
+  };
+
+  const updateEffectPosition = (element) => {
+    const containerRect = containerEl.getBoundingClientRect();
+    const pos = element.getBoundingClientRect();
+    const styles = {
+      left: `${pos.x - containerRect.x}px`,
+      top: `${pos.y - containerRect.y}px`,
+      width: `${pos.width}px`,
+      height: `${pos.height}px`
+    };
+    Object.assign(filterEl.style, styles);
+    Object.assign(textEl.style, styles);
+    textEl.innerText = element.innerText;
+  };
+
+  const setActive = (li, index) => {
+    if (activeIndex === index) return;
+    items.forEach(el => el.classList.remove('active'));
+    li.classList.add('active');
+    activeIndex = index;
+    updateEffectPosition(li);
+
+    filterEl.querySelectorAll('.particle').forEach(p => filterEl.removeChild(p));
+    textEl.classList.remove('active');
+    void textEl.offsetWidth;
+    textEl.classList.add('active');
+    makeParticles(filterEl);
+  };
+
+  const navigate = (href) => {
+    if (!href || href === '#') return;
+    if (href.startsWith('#')) {
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      setTimeout(() => { window.location.href = href; }, 220);
+    }
+  };
+
+  items.forEach((li, index) => {
+    const a = li.querySelector('a');
+    li.addEventListener('click', (e) => {
+      e.preventDefault();
+      setActive(li, index);
+      navigate(a.getAttribute('href'));
+    });
+    a.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        setActive(li, index);
+        navigate(a.getAttribute('href'));
+      }
+    });
+  });
+
+  const init = () => {
+    const activeLi = items[activeIndex];
+    if (activeLi) {
+      activeLi.classList.add('active');
+      updateEffectPosition(activeLi);
+      textEl.classList.add('active');
+    }
+  };
+  init();
+
+  const ro = new ResizeObserver(() => {
+    const currentActive = items[activeIndex];
+    if (currentActive) updateEffectPosition(currentActive);
+  });
+  ro.observe(containerEl);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const navContainer = document.getElementById('gooeyNav');
+  if (navContainer) {
+    initGooeyNav(navContainer, {
+      animationTime: 600,
+      particleCount: 9,
+      particleDistances: [90, 10],
+      particleR: 120,
+      timeVariance: 800,
+      colors: [1, 2, 3, 1, 2, 3, 1, 4],
+      initialActiveIndex: 0
+    });
+  }
+});
+
+/* =======================================================================
+   DarkVeil — vanilla WebGL port of the provided ogl-based component.
+   Same vertex/fragment shaders, wired up with raw WebGL instead of ogl.
+======================================================================= */
+function initDarkVeil(canvas, opts = {}) {
+  const {
+    hueShift = -18,
+    noiseIntensity = 0.035,
+    scanlineIntensity = 0.12,
+    speed = 0.35,
+    scanlineFrequency = 5.5,
+    warpAmount = 0.25,
+    resolutionScale = 0.6
+  } = opts;
+
+  const gl = canvas.getContext('webgl', { antialias: false, alpha: false })
+    || canvas.getContext('experimental-webgl');
+  if (!gl) { canvas.style.display = 'none'; return null; }
+
+  const vertexSrc = `
+attribute vec2 position;
+void main(){gl_Position=vec4(position,0.0,1.0);}
+`;
+
+  const fragmentSrc = `
+#ifdef GL_ES
+precision lowp float;
+#endif
+uniform vec2 uResolution;
+uniform float uTime;
+uniform float uHueShift;
+uniform float uNoise;
+uniform float uScan;
+uniform float uScanFreq;
+uniform float uWarp;
+#define iTime uTime
+#define iResolution uResolution
+
+vec4 buf[8];
+float rand(vec2 c){return fract(sin(dot(c,vec2(12.9898,78.233)))*43758.5453);}
+
+mat3 rgb2yiq=mat3(0.299,0.587,0.114,0.596,-0.274,-0.322,0.211,-0.523,0.312);
+mat3 yiq2rgb=mat3(1.0,0.956,0.621,1.0,-0.272,-0.647,1.0,-1.106,1.703);
+
+vec3 hueShiftRGB(vec3 col,float deg){
+    vec3 yiq=rgb2yiq*col;
+    float rad=radians(deg);
+    float cosh=cos(rad),sinh=sin(rad);
+    vec3 yiqShift=vec3(yiq.x,yiq.y*cosh-yiq.z*sinh,yiq.y*sinh+yiq.z*cosh);
+    return clamp(yiq2rgb*yiqShift,0.0,1.0);
+}
+
+vec4 sigmoid(vec4 x){return 1./(1.+exp(-x));}
+
+vec4 cppn_fn(vec2 coordinate,float in0,float in1,float in2){
+    buf[6]=vec4(coordinate.x,coordinate.y,0.3948333106474662+in0,0.36+in1);
+    buf[7]=vec4(0.14+in2,sqrt(coordinate.x*coordinate.x+coordinate.y*coordinate.y),0.,0.);
+    buf[0]=mat4(vec4(6.5404263,-3.6126034,0.7590882,-1.13613),vec4(2.4582713,3.1660357,1.2219609,0.06276096),vec4(-5.478085,-6.159632,1.8701609,-4.7742867),vec4(6.039214,-5.542865,-0.90925294,3.251348))*buf[6]+mat4(vec4(0.8473259,-5.722911,3.975766,1.6522468),vec4(-0.24321538,0.5839259,-1.7661959,-5.350116),vec4(0.,0.,0.,0.),vec4(0.,0.,0.,0.))*buf[7]+vec4(0.21808943,1.1243913,-1.7969975,5.0294676);
+    buf[1]=mat4(vec4(-3.3522482,-6.0612736,0.55641043,-4.4719114),vec4(0.8631464,1.7432913,5.643898,1.6106541),vec4(2.4941394,-3.5012043,1.7184316,6.357333),vec4(3.310376,8.209261,1.1355612,-1.165539))*buf[6]+mat4(vec4(5.24046,-13.034365,0.009859298,15.870829),vec4(2.987511,3.129433,-0.89023495,-1.6822904),vec4(0.,0.,0.,0.),vec4(0.,0.,0.,0.))*buf[7]+vec4(-5.9457836,-6.573602,-0.8812491,1.5436668);
+    buf[0]=sigmoid(buf[0]);buf[1]=sigmoid(buf[1]);
+    buf[2]=mat4(vec4(-15.219568,8.095543,-2.429353,-1.9381982),vec4(-5.951362,4.3115187,2.6393783,1.274315),vec4(-7.3145227,6.7297835,5.2473326,5.9411426),vec4(5.0796127,8.979051,-1.7278991,-1.158976))*buf[6]+mat4(vec4(-11.967154,-11.608155,6.1486754,11.237008),vec4(2.124141,-6.263192,-1.7050359,-0.7021966),vec4(0.,0.,0.,0.),vec4(0.,0.,0.,0.))*buf[7]+vec4(-4.17164,-3.2281182,-4.576417,-3.6401186);
+    buf[3]=mat4(vec4(3.1832156,-13.738922,1.879223,3.233465),vec4(0.64300746,12.768129,1.9141049,0.50990224),vec4(-0.049295485,4.4807224,1.4733979,1.801449),vec4(5.0039253,13.000481,3.3991797,-4.5561905))*buf[6]+mat4(vec4(-0.1285731,7.720628,-3.1425676,4.742367),vec4(0.6393625,3.714393,-0.8108378,-0.39174938),vec4(0.,0.,0.,0.),vec4(0.,0.,0.,0.))*buf[7]+vec4(-1.1811101,-21.621881,0.7851888,1.2329718);
+    buf[2]=sigmoid(buf[2]);buf[3]=sigmoid(buf[3]);
+    buf[4]=mat4(vec4(5.214916,-7.183024,2.7228765,2.6592617),vec4(-5.601878,-25.3591,4.067988,0.4602802),vec4(-10.57759,24.286327,21.102104,37.546658),vec4(4.3024497,-1.9625226,2.3458803,-1.372816))*buf[0]+mat4(vec4(-17.6526,-10.507558,2.2587414,12.462782),vec4(6.265566,-502.75443,-12.642513,0.9112289),vec4(-10.983244,20.741234,-9.701768,-0.7635988),vec4(5.383626,1.4819539,-4.1911616,-4.8444734))*buf[1]+mat4(vec4(12.785233,-16.345072,-0.39901125,1.7955981),vec4(-30.48365,-1.8345358,1.4542528,-1.1118771),vec4(19.872723,-7.337935,-42.941723,-98.52709),vec4(8.337645,-2.7312303,-2.2927687,-36.142323))*buf[2]+mat4(vec4(-16.298317,3.5471997,-0.44300047,-9.444417),vec4(57.5077,-35.609753,16.163465,-4.1534753),vec4(-0.07470326,-3.8656476,-7.0901804,3.1523974),vec4(-12.559385,-7.077619,1.490437,-0.8211543))*buf[3]+vec4(-7.67914,15.927437,1.3207729,-1.6686112);
+    buf[5]=mat4(vec4(-1.4109162,-0.372762,-3.770383,-21.367174),vec4(-6.2103205,-9.35908,0.92529047,8.82561),vec4(11.460242,-22.348068,13.625772,-18.693201),vec4(-0.3429052,-3.9905605,-2.4626114,-0.45033523))*buf[0]+mat4(vec4(7.3481627,-4.3661838,-6.3037653,-3.868115),vec4(1.5462853,6.5488915,1.9701879,-0.58291394),vec4(6.5858274,-2.2180402,3.7127688,-1.3730392),vec4(-5.7973905,10.134961,-2.3395722,-5.965605))*buf[1]+mat4(vec4(-2.5132585,-6.6685553,-1.4029363,-0.16285264),vec4(-0.37908727,0.53738135,4.389061,-1.3024765),vec4(-0.70647055,2.0111287,-5.1659346,-3.728635),vec4(-13.562562,10.487719,-0.9173751,-2.6487076))*buf[2]+mat4(vec4(-8.645013,6.5546675,-6.3944063,-5.5933375),vec4(-0.57783127,-1.077275,36.91025,5.736769),vec4(14.283112,3.7146652,7.1452246,-4.5958776),vec4(2.7192075,3.6021907,-4.366337,-2.3653464))*buf[3]+vec4(-5.9000807,-4.329569,1.2427121,8.59503);
+    buf[4]=sigmoid(buf[4]);buf[5]=sigmoid(buf[5]);
+    buf[6]=mat4(vec4(-1.61102,0.7970257,1.4675229,0.20917463),vec4(-28.793737,-7.1390953,1.5025433,4.656581),vec4(-10.94861,39.66238,0.74318546,-10.095605),vec4(-0.7229728,-1.5483948,0.7301322,2.1687684))*buf[0]+mat4(vec4(3.2547753,21.489103,-1.0194173,-3.3100595),vec4(-3.7316632,-3.3792162,-7.223193,-0.23685838),vec4(13.1804495,0.7916005,5.338587,5.687114),vec4(-4.167605,-17.798311,-6.815736,-1.6451967))*buf[1]+mat4(vec4(0.604885,-7.800309,-7.213122,-2.741014),vec4(-3.522382,-0.12359311,-0.5258442,0.43852118),vec4(9.6752825,-22.853785,2.062431,0.099892326),vec4(-4.3196306,-17.730087,2.5184598,5.30267))*buf[2]+mat4(vec4(-6.545563,-15.790176,-6.0438633,-5.415399),vec4(-43.591583,28.551912,-16.00161,18.84728),vec4(4.212382,8.394307,3.0958717,8.657522),vec4(-5.0237565,-4.450633,-4.4768,-5.5010443))*buf[3]+mat4(vec4(1.6985557,-67.05806,6.897715,1.9004834),vec4(1.8680354,2.3915145,2.5231109,4.081538),vec4(11.158006,1.7294737,2.0738268,7.386411),vec4(-4.256034,-306.24686,8.258898,-17.132736))*buf[4]+mat4(vec4(1.6889864,-4.5852966,3.8534803,-6.3482175),vec4(1.3543309,-1.2640043,9.932754,2.9079645),vec4(-5.2770967,0.07150358,-0.13962056,3.3269649),vec4(28.34703,-4.918278,6.1044083,4.085355))*buf[5]+vec4(6.6818056,12.522166,-3.7075126,-4.104386);
+    buf[7]=mat4(vec4(-8.265602,-4.7027016,5.098234,0.7509808),vec4(8.6507845,-17.15949,16.51939,-8.884479),vec4(-4.036479,-2.3946867,-2.6055532,-1.9866527),vec4(-2.2167742,-1.8135649,-5.9759874,4.8846445))*buf[0]+mat4(vec4(6.7790847,3.5076547,-2.8191125,-2.7028968),vec4(-5.743024,-0.27844876,1.4958696,-5.0517144),vec4(13.122226,15.735168,-2.9397483,-4.101023),vec4(-14.375265,-5.030483,-6.2599335,2.9848232))*buf[1]+mat4(vec4(4.0950394,-0.94011575,-5.674733,4.755022),vec4(4.3809423,4.8310084,1.7425908,-3.437416),vec4(2.117492,0.16342592,-104.56341,16.949184),vec4(-5.22543,-2.994248,3.8350096,-1.9364246))*buf[2]+mat4(vec4(-5.900337,1.7946124,-13.604192,-3.8060522),vec4(6.6583457,31.911177,25.164474,91.81147),vec4(11.840538,4.1503043,-0.7314397,6.768467),vec4(-6.3967767,4.034772,6.1714606,-0.32874924))*buf[3]+mat4(vec4(3.4992442,-196.91893,-8.923708,2.8142626),vec4(3.4806502,-3.1846354,5.1725626,5.1804223),vec4(-2.4009497,15.585794,1.2863957,2.0252278),vec4(-71.25271,-62.441242,-8.138444,0.50670296))*buf[4]+mat4(vec4(-12.291733,-11.176166,-7.3474145,4.390294),vec4(10.805477,5.6337385,-0.9385842,-4.7348723),vec4(-12.869276,-7.039391,5.3029537,7.5436664),vec4(1.4593618,8.91898,3.5101583,5.840625))*buf[5]+vec4(2.2415268,-6.705987,-0.98861027,-2.117676);
+    buf[6]=sigmoid(buf[6]);buf[7]=sigmoid(buf[7]);
+    buf[0]=mat4(vec4(1.6794263,1.3817469,2.9625452,0.),vec4(-1.8834411,-1.4806935,-3.5924516,0.),vec4(-1.3279216,-1.0918057,-2.3124623,0.),vec4(0.2662234,0.23235129,0.44178495,0.))*buf[0]+mat4(vec4(-0.6299101,-0.5945583,-0.9125601,0.),vec4(0.17828953,0.18300213,0.18182953,0.),vec4(-2.96544,-2.5819945,-4.9001055,0.),vec4(1.4195864,1.1868085,2.5176322,0.))*buf[1]+mat4(vec4(-1.2584374,-1.0552157,-2.1688404,0.),vec4(-0.7200217,-0.52666044,-1.438251,0.),vec4(0.15345335,0.15196142,0.272854,0.),vec4(0.945728,0.8861938,1.2766753,0.))*buf[2]+mat4(vec4(-2.4218085,-1.968602,-4.35166,0.),vec4(-22.683098,-18.0544,-41.954372,0.),vec4(0.63792,0.5470648,1.1078634,0.),vec4(-1.5489894,-1.3075932,-2.6444845,0.))*buf[3]+mat4(vec4(-0.49252132,-0.39877754,-0.91366625,0.),vec4(0.95609266,0.7923952,1.640221,0.),vec4(0.30616966,0.15693925,0.8639857,0.),vec4(1.1825981,0.94504964,2.176963,0.))*buf[4]+mat4(vec4(0.35446745,0.3293795,0.59547555,0.),vec4(-0.58784515,-0.48177817,-1.0614829,0.),vec4(2.5271258,1.9991658,4.6846647,0.),vec4(0.13042648,0.08864098,0.30187556,0.))*buf[5]+mat4(vec4(-1.7718065,-1.4033192,-3.3355875,0.),vec4(3.1664357,2.638297,5.378702,0.),vec4(-3.1724713,-2.6107926,-5.549295,0.),vec4(-2.851368,-2.249092,-5.3013067,0.))*buf[6]+mat4(vec4(1.5203838,1.2212278,2.8404984,0.),vec4(1.5210563,1.2651345,2.683903,0.),vec4(2.9789467,2.4364579,5.2347264,0.),vec4(2.2270417,1.8825914,3.8028636,0.))*buf[7]+vec4(-1.5468478,-3.6171484,0.24762098,0.);
+    buf[0]=sigmoid(buf[0]);
+    return vec4(buf[0].x,buf[0].y,buf[0].z,1.);
+}
+
+void mainImage(out vec4 fragColor,in vec2 fragCoord){
+    vec2 uv=fragCoord/uResolution.xy*2.-1.;
+    uv.x *= uResolution.x / uResolution.y;
+    uv.y*=-1.;
+    uv+=uWarp*vec2(sin(uv.y*6.283+uTime*0.5),cos(uv.x*6.283+uTime*0.5))*0.05;
+    fragColor=cppn_fn(uv,0.1*sin(0.3*uTime),0.1*sin(0.69*uTime),0.1*sin(0.44*uTime));
+}
+
+void main(){
+    vec4 col;mainImage(col,gl_FragCoord.xy);
+    col.rgb=hueShiftRGB(col.rgb,uHueShift);
+    float scanline_val=sin(gl_FragCoord.y*uScanFreq)*0.5+0.5;
+    col.rgb*=1.-(scanline_val*scanline_val)*uScan;
+    col.rgb+=(rand(gl_FragCoord.xy+uTime)-0.5)*uNoise;
+    gl_FragColor=vec4(clamp(col.rgb,0.0,1.0),1.0);
+}
+`;
+
+  function compile(type, src) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, src);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(shader));
+    }
+    return shader;
+  }
+
+  const vs = compile(gl.VERTEX_SHADER, vertexSrc);
+  const fs = compile(gl.FRAGMENT_SHADER, fragmentSrc);
+  const program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(program));
+    canvas.style.display = 'none';
+    return null;
+  }
+  gl.useProgram(program);
+
+  const posBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const posLoc = gl.getAttribLocation(program, 'position');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  const uRes = gl.getUniformLocation(program, 'uResolution');
+  const uTime = gl.getUniformLocation(program, 'uTime');
+  const uHue = gl.getUniformLocation(program, 'uHueShift');
+  const uNoise = gl.getUniformLocation(program, 'uNoise');
+  const uScan = gl.getUniformLocation(program, 'uScan');
+  const uScanFreq = gl.getUniformLocation(program, 'uScanFreq');
+  const uWarp = gl.getUniformLocation(program, 'uWarp');
+
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    const rw = Math.max(1, Math.floor(w * dpr * resolutionScale));
+    const rh = Math.max(1, Math.floor(h * dpr * resolutionScale));
+    if (canvas.width !== rw || canvas.height !== rh) {
+      canvas.width = rw;
+      canvas.height = rh;
+      gl.viewport(0, 0, rw, rh);
+      gl.uniform2f(uRes, rw, rh);
+    }
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const start = performance.now();
+  let raf = null;
+
+  function drawFrame() {
+    const t = ((performance.now() - start) / 1000) * speed;
+    gl.uniform1f(uTime, t);
+    gl.uniform1f(uHue, hueShift);
+    gl.uniform1f(uNoise, noiseIntensity);
+    gl.uniform1f(uScan, scanlineIntensity);
+    gl.uniform1f(uScanFreq, scanlineFrequency);
+    gl.uniform1f(uWarp, warpAmount);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+
+  function loop() {
+    drawFrame();
+    if (!reduceMotion) raf = requestAnimationFrame(loop);
+  }
+  loop();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (reduceMotion) return;
+      if (entry.isIntersecting) {
+        if (!raf) { raf = requestAnimationFrame(loop); }
+      } else if (raf) {
+        cancelAnimationFrame(raf);
+        raf = null;
+      }
+    });
+  }, { threshold: 0 });
+  io.observe(canvas);
+
+  return { resize };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('darkveil');
+  if (canvas) {
+    initDarkVeil(canvas, {
+      hueShift: -18,
+      noiseIntensity: 0.035,
+      scanlineIntensity: 0.12,
+      speed: 0.35,
+      scanlineFrequency: 5.5,
+      warpAmount: 0.25,
+      resolutionScale: window.innerWidth < 700 ? 0.4 : 0.6
+    });
+  }
+});
+</script>
+
+</body>
+</html>
